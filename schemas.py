@@ -1,5 +1,7 @@
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, EmailStr
 
+# ---------- PRODUCTOS ----------
 
 class ProductoBase(BaseModel):
     nombre: str
@@ -15,6 +17,7 @@ class ProductoCreate(ProductoBase):
 
 
 class ProductoUpdate(ProductoBase):
+    # si quisieras hacer PATCH podrías poner los campos como Optional
     pass
 
 
@@ -22,4 +25,40 @@ class ProductoOut(ProductoBase):
     id: int
 
     class Config:
-        from_attributes = True  # equivalente a orm_mode en Pydantic v2
+        from_attributes = True
+
+
+# ---------- AUTH ----------
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+
+# ---------- USUARIOS ----------
+
+class UsuarioBase(BaseModel):
+    nombre: str
+    email: EmailStr
+    rol: str  # "admin" o "cliente"
+
+
+class UsuarioCreate(BaseModel):
+    nombre: str
+    email: EmailStr
+    password: str
+    rol: Optional[str] = "cliente"   # por defecto cliente
+
+
+class UsuarioUpdate(BaseModel):
+    nombre: Optional[str] = None
+    email: Optional[EmailStr] = None
+    rol: Optional[str] = None         # "admin" / "cliente"
+    password: Optional[str] = None    # para cambiar contraseña
+
+
+class UsuarioOut(UsuarioBase):
+    id: int
+
+    class Config:
+        from_attributes = True
