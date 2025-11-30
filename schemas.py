@@ -1,7 +1,9 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr
 
-# ---------- PRODUCTOS ----------
+# ==========================================
+#                PRODUCTOS
+# ==========================================
 
 class ProductoBase(BaseModel):
     nombre: str
@@ -17,7 +19,8 @@ class ProductoCreate(ProductoBase):
 
 
 class ProductoUpdate(ProductoBase):
-    # si quisieras hacer PATCH podrías poner los campos como Optional
+    # Si quisieras PATCH, podrías hacer todos los campos Optional,
+    # pero para este proyecto lo dejamos así.
     pass
 
 
@@ -25,17 +28,25 @@ class ProductoOut(ProductoBase):
     id: int
 
     class Config:
-        from_attributes = True
+        from_attributes = True  # para que funcione con ORM de SQLAlchemy
 
 
-# ---------- AUTH ----------
+# ==========================================
+#                AUTH
+# ==========================================
 
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
 
-# ---------- USUARIOS ----------
+class LoginResponse(BaseModel):
+    token: str   # lo que devuelve tu endpoint /api/auth/login
+
+
+# ==========================================
+#                USUARIOS
+# ==========================================
 
 class UsuarioBase(BaseModel):
     nombre: str
