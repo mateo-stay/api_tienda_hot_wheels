@@ -21,4 +21,4 @@ class Usuario(Base):
     nombre = Column(String(100), nullable=False)
     email = Column(String(150), unique=True, index=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
-    rol = Column(String(20), default="cliente", nullable=False)  # 👈 texto normal
+    rol = Column(String(20), default="cliente", nullable=False)  # "admin" | "cliente"
