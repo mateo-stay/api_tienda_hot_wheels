@@ -1,17 +1,15 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr
 
-# ======================================================
-#                   PRODUCTOS
-# ======================================================
+# ---------- PRODUCTOS ----------
 
 class ProductoBase(BaseModel):
     nombre: str
-    descripcion: str | None = None
+    descripcion: Optional[str] = None
     precio: float
     stock: int
-    imagen_url: str | None = None
-    categoria: str | None = None
+    imagen_url: Optional[str] = None
+    categoria: Optional[str] = None
 
 
 class ProductoCreate(ProductoBase):
@@ -19,7 +17,7 @@ class ProductoCreate(ProductoBase):
 
 
 class ProductoUpdate(ProductoBase):
-    # Si quisieras un PATCH, podrías cambiar a Optional[...] aquí.
+    # si quisieras hacer PATCH podrías poner los campos como Optional
     pass
 
 
@@ -30,31 +28,14 @@ class ProductoOut(ProductoBase):
         from_attributes = True
 
 
-# ======================================================
-#                   AUTH
-# ======================================================
+# ---------- AUTH ----------
 
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
 
-# Respuesta del login: coincide con lo que devuelve /api/auth/login
-class UsuarioMini(BaseModel):
-    id: int
-    nombre: str
-    email: EmailStr
-    rol: str
-
-
-class LoginResponse(BaseModel):
-    token: str
-    usuario: UsuarioMini
-
-
-# ======================================================
-#                   USUARIOS
-# ======================================================
+# ---------- USUARIOS ----------
 
 class UsuarioBase(BaseModel):
     nombre: str
